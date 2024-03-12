@@ -31,9 +31,6 @@ public class SigninPage extends BasePom {
 	@FindBy(className = "error-message")
 	protected WebElement invalidEmailErrorMessage;
 
-	@FindBy(css = "a[href*='sign/up']")
-	private WebElement startFreeTrialButton;
-
 	@FindBy(xpath = "//a[contains(text(), 'Get a Free Trial')]")
 	protected WebElement getAFreeTrialLink;
 
@@ -87,11 +84,6 @@ public class SigninPage extends BasePom {
 
 	public String getInvalidEmailErrorMessageText() throws Throwable {
 		return invalidEmailErrorMessage.getText();
-	}
-
-	public void clickOnStartFreeTrial() throws Throwable {
-		ExtendedReporter.log("Clicking on start free trial button");
-		startFreeTrialButton.click();
 	}
 
 	public void clickOnGetAFreeTrial() throws Throwable {

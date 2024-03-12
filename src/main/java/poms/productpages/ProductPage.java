@@ -1,7 +1,6 @@
 package poms.productpages;
 
 import assertions.Asserter;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,8 +9,7 @@ import poms.base.BasePom;
 import reporting.ExtendedReporter;
 
 import static base.SeleniumBaseTest.*;
-import static utils.WebDriverUtils.closeRequestedTab;
-import static utils.WebDriverUtils.focusOnRequestedTab;
+import static utils.WebDriverUtils.*;
 
 public class ProductPage extends BasePom {
 
@@ -20,9 +18,6 @@ public class ProductPage extends BasePom {
 
 	@FindBy(css = "a[href*='sign-in']")
 	protected WebElement loginButton;
-
-	@FindBy(css = "a[href*='sign/up']")
-	private WebElement startFreeTrialButton;
 
 	@FindBy(xpath = "//button[contains(text(), 'Product')]")
 	protected WebElement productButton;
@@ -74,36 +69,36 @@ public class ProductPage extends BasePom {
 		Asserter.assertTrue(waitForUrlToBe(vicariusProductUrl, 5), "Expected url to be " + vicariusProductUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusProductUrl);
 	}
 
-	public void clickAndValidateLogin() throws Throwable {
-		ExtendedReporter.log("Clicking and validating login button");
-		loginButton.click();
-		Thread.sleep(1000);
-		focusOnRequestedTab(driver, 1);
-		Asserter.assertTrue(waitForUrlToBe("https://sign-in.vicarius.cloud", 5), "Expected url to be " + "https://sign-in.vicarius.cloud" + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + "https://sign-in.vicarius.cloud");
-		focusOnRequestedTab(driver, 0);
-		closeRequestedTab(driver, 1);
+	public WebElement getProductOverviewButton() {
+		return productOverviewButton;
 	}
 
-	public void clickAndValidateStartFreeTrial() throws Throwable {
-		ExtendedReporter.log("Clicking and validating start free trial button");
-		startFreeTrialButton.click();
+	public WebElement getSolutionOverviewButton() {
+		return solutionOverviewButton;
+	}
+
+	public WebElement getVsocietyButton() {
+		return vsocietyButton;
+	}
+
+	public WebElement getAboutButton() {
+		return aboutButton;
+	}
+
+	public void clickOnLogin() throws Throwable {
+		ExtendedReporter.log("Clicking on login button");
+		loginButton.click();
 		Thread.sleep(1000);
-		Asserter.assertTrue(waitForUrlToBe(vicariusSignupUrl, 5), "Expected url to be " + vicariusSignupUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSignupUrl);
-		navigateBack();
-		Thread.sleep(1000);
-		Asserter.assertTrue(waitForUrlToBe(vicariusProductUrl, 5), "Expected url to be " + vicariusProductUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusProductUrl);
 	}
 
 	public void hoverOnProduct() throws Throwable {
 		ExtendedReporter.log("Hovering on product");
 		hoverOverElement(productButton);
-		Asserter.assertTrue(isDisplayed(productOverviewButton), "Expected product overview to be displayed, but found that it's not", "Validating that product overview is displayed");
 	}
 
 	public void hoverOnSolution() throws Throwable {
 		ExtendedReporter.log("Hovering on solution");
 		hoverOverElement(solutionButton);
-		Asserter.assertTrue(isDisplayed(solutionOverviewButton), "Expected solution overview to be displayed, but found that it's not", "Validating that solution overview is displayed");
 	}
 
 	public void hoverOnPricing() throws Throwable {
@@ -114,13 +109,11 @@ public class ProductPage extends BasePom {
 	public void hoverOnCommunity() throws Throwable {
 		ExtendedReporter.log("Hovering on community");
 		hoverOverElement(communityButton);
-		Asserter.assertTrue(isDisplayed(vsocietyButton), "Expected vsociety community to be displayed, but found that it's not", "Validating that vsociety community is displayed");
 	}
 
 	public void hoverOnCompany() throws Throwable {
 		ExtendedReporter.log("Hovering on product");
 		hoverOverElement(companyButton);
-		Asserter.assertTrue(isDisplayed(aboutButton), "Expected about to be displayed, but found that it's not", "Validating that about is displayed");
 	}
 
 	public void hoverOnContact() throws Throwable {

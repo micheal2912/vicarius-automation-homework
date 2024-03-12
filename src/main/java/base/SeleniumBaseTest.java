@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
 import reporting.ExtentReporterNG;
@@ -97,14 +99,18 @@ public class SeleniumBaseTest {
 				options.addArguments("--headless");
 				options.addArguments("window-size=1920x1080"); // Adjust as needed
 			}
-			driver = new ChromeDriver(options);
+			if (Boolean.parseBoolean(System.getProperty("remote"))) {
+//				driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
+				driver = new RemoteWebDriver(new URL("http://selenium-hub:4444/wd/hub"), options);
+			}
+			else {
+				driver = new ChromeDriver(options);
+			}
 			driver.manage().window().maximize();
 		}
 
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		driversPool.set(driver);
-		System.out.println("Navigating back to main tab");
-		WebDriverUtils.focusOnRequestedTab(driver, 0);
 		driver.get(vicariusBaseUrl);
 		return driver;
 	}

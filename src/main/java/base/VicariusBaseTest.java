@@ -6,6 +6,8 @@ import poms.productpages.ProductPage;
 import poms.mainpages.SigninPage;
 import poms.mainpages.SignupPage;
 
+import static utils.WebDriverUtils.*;
+
 public class VicariusBaseTest extends SeleniumBaseTest{
 
     protected MainPage mainPage;
@@ -116,13 +118,13 @@ public class VicariusBaseTest extends SeleniumBaseTest{
 
     // Signin sanity test covers negative and positive flows
     protected void signinTest() throws Throwable {
-        signupPage.navigateToUrl(vicariusSigninUrl);
+        navigateToUrl(driver, vicariusSigninUrl);
 
         // Verify navigation to signup page and get back to signup page
         signinPage = new SigninPage();
         signinPage.clickOnStartFreeTrial();
         Asserter.assertTrue(signinPage.waitForUrlToBe(vicariusSignupUrl, 5), "Expected url to be " + vicariusSignupUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSignupUrl);
-        signinPage.navigateBack();
+        navigateBack(driver);
         Asserter.assertTrue(signinPage.waitForUrlToBe(vicariusSigninUrl, 5), "Expected url to be " + vicariusSigninUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSigninUrl);
 
         signinPage.clickOnLogin();
@@ -152,7 +154,7 @@ public class VicariusBaseTest extends SeleniumBaseTest{
         // Validate navigation to to get a free trial
         signinPage.clickOnGetAFreeTrial();
         Asserter.assertTrue(signinPage.waitForUrlToBe(vicariusSignupUrl, 5), "Expected url to be " + vicariusSignupUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSignupUrl);
-        signinPage.navigateBack();
+        navigateBack(driver);
         Asserter.assertTrue(signinPage.waitForUrlToBe(vicariusSigninUrl, 5), "Expected url to be " + vicariusSigninUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSigninUrl);
 
         // Validate Positive flow
@@ -162,19 +164,40 @@ public class VicariusBaseTest extends SeleniumBaseTest{
 
     //Product page sanity test is validating login and logout url, it's also hovering and scrolling over elements
     protected void productPageTest() throws Throwable {
-        signinPage.navigateToUrl(vicariusBaseUrl);
+        navigateToUrl(driver, vicariusBaseUrl);
 
         // Navigate to product page
+        mainPage = new MainPage();
         mainPage.hoverAndClickOnProductOverview();
 
         productPage = new ProductPage();
 
-        // Validate login and start free trial links
-        productPage.clickAndValidateLogin();
-        productPage.clickAndValidateStartFreeTrial();
+        // Validate login link
+        productPage.clickOnLogin();
+        focusOnRequestedTab(driver, 1);
+        Asserter.assertTrue(productPage.waitForUrlToBe("https://sign-in.vicarius.cloud", 5), "Expected url to be " + "https://sign-in.vicarius.cloud" + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + "https://sign-in.vicarius.cloud");
+        focusOnRequestedTab(driver, 0);
+        closeRequestedTab(driver, 1);
 
-        // Hover check on all the tabs and scroll through the page
-        productPage.hoverOnAllTabs();
+        // Validate start free trial link
+        productPage.clickOnStartFreeTrial();
+        Asserter.assertTrue(productPage.waitForUrlToBe(vicariusSignupUrl, 5), "Expected url to be " + vicariusSignupUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusSignupUrl);
+        navigateBack(driver);
+        Asserter.assertTrue(productPage.waitForUrlToBe(vicariusProductUrl, 5), "Expected url to be " + vicariusProductUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusProductUrl);
+
+        // Hover check on all the tabs
+        productPage.hoverOnProduct();
+        Asserter.assertTrue(productPage.isDisplayed(productPage.getProductOverviewButton()), "Expected product overview to be displayed, but found that it's not", "Validating that product overview is displayed");
+        productPage.hoverOnSolution();
+        Asserter.assertTrue(productPage.isDisplayed(productPage.getSolutionOverviewButton()), "Expected solution overview to be displayed, but found that it's not", "Validating that solution overview is displayed");
+        productPage.hoverOnPricing();
+        productPage.hoverOnCommunity();
+        Asserter.assertTrue(productPage.isDisplayed(productPage.getVsocietyButton()), "Expected vsociety community to be displayed, but found that it's not", "Validating that vsociety community is displayed");
+        productPage.hoverOnCompany();
+        Asserter.assertTrue(productPage.isDisplayed(productPage.getAboutButton()), "Expected about to be displayed, but found that it's not", "Validating that about is displayed");
+        productPage.hoverOnContact();
+
+        // Scroll and check elements visibility through the page
         Asserter.assertTrue(productPage.isWatchDemoDisplayed(), "Expected watch demo button to be displayed, but found that it's not", "Validating that watch demo button is displayed");
         productPage.scrollBy(0, 1500);
         Asserter.assertTrue(productPage.isAnalyzeCircleDisplayed(), "Expected analyze circle to be displayed, but found that it's not", "Validating that analyze circle is displayed");

@@ -17,6 +17,9 @@ public class BasePom {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
+    @FindBy(css = "a[href*='sign/up']")
+    private WebElement startFreeTrialButton;
+
     @FindBy(css = ".type-validation")
     protected WebElement validationErrorNotificationPopup;
 
@@ -76,11 +79,6 @@ public class BasePom {
         action.moveToElement(element).perform();
     }
 
-    public void navigateToUrl(String url) throws Throwable {
-        driver.get(url);
-        Asserter.assertTrue(waitForUrlToBe(url, 5), "Expected url to be " + url + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + url);
-    }
-
     // Wait for URL to be a specific value
     public boolean waitForUrlToBe(String expectedUrl, long timeoutSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
@@ -96,11 +94,6 @@ public class BasePom {
     public void scrollBy(int xOffset, int yOffset) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         jsExecutor.executeScript("window.scrollBy(" + xOffset + "," + yOffset + ")");
-    }
-
-    public void navigateBack() throws InterruptedException {
-        driver.navigate().back();
-        Thread.sleep(2000);
     }
 
     /**
@@ -128,6 +121,12 @@ public class BasePom {
     public void clickOnCloseNotificationPopupButton() throws Throwable {
         ExtendedReporter.log("Clicking on close notification button");
         closeNotificationPopupButton.click();
+        Thread.sleep(1000);
+    }
+
+    public void clickOnStartFreeTrial() throws Throwable {
+        ExtendedReporter.log("Clicking on start free trial button");
+        startFreeTrialButton.click();
         Thread.sleep(1000);
     }
 

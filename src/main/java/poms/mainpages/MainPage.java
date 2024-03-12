@@ -18,9 +18,6 @@ public class MainPage extends BasePom {
 	@FindBy(css = "a[href*='sign-in']")
 	protected WebElement loginButton;
 
-	@FindBy(css = "a[href*='sign/up']")
-	private WebElement startFreeTrialButton;
-
 	@FindBy(xpath = "//button[contains(text(), 'Product')]")
 	protected WebElement productButton;
 
@@ -33,12 +30,6 @@ public class MainPage extends BasePom {
 		wait = new WebDriverWait(driver, 7);
 		wait.until(ExpectedConditions.visibilityOf(vicariusLogo));
 		Asserter.assertTrue(driver.getCurrentUrl().contains(vicariusBaseUrl), "Expected url to be " + vicariusBaseUrl + ", but found that it's " + driver.getCurrentUrl(), "Validating that url is " + vicariusBaseUrl);
-	}
-
-	public void clickOnStartFreeTrial() throws Throwable {
-		ExtendedReporter.log("Clicking on start free trial button");
-		startFreeTrialButton.click();
-		Thread.sleep(1000);
 	}
 
 	public void hoverOnProduct() throws Throwable {

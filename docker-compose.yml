@@ -1,0 +1,31 @@
+version: '3'
+services:
+  selenium-hub:
+    image: selenium/hub:3.141.59-20210929
+    ports:
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=5
+      - GRID_BROWSER_TIMEOUT=60
+      - GRID_TIMEOUT=30
+
+  chrome:
+    image: selenium/node-chrome:3.141.59-20210929
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - HUB_HOST=selenium-hub
+      - HUB_PORT=4444
+
+  my-java-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile # This should point to your Dockerfile
+    depends_on:
+      - selenium-hub
+    environment:
+      - SELENIUM_HUB_URL=http://selenium-hub:4444/wd/hub
+    volumes:
+      - ./local-surefire-reports:/usr/src/myapp/target/surefire-reports
