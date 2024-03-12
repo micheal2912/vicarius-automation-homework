@@ -14,7 +14,16 @@
     brew install maven
 
 ## Run The Project
+    Navigate to the project folder and run this command:
     mvn test
 
 ## Run The Project In Headless Mode
+    Navigate to the project folder and run this command:
     mvn test -Dheadless=true
+
+## Run The Project Using IDE
+    Navigate to VicariusSanityTest class, then double click on the class name and click on Run 'VicariusSanityTest'
+
+## Note
+    If you want to open the project using IDE, you should open it as maven project.
+    For exmaple, if you are using IntelliJ, you just need to open the pom.xml file and it will be converted to mave project.
