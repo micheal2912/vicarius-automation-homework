@@ -6,6 +6,7 @@
     signupSanityTest covers the negative and positive flows of the signup page.
     signinSanityTest covers the negative and positive flows of the signin page.
     productPageSanityTest covers navigate, hovring, and scrolling over page elements.
+    Each test covers multiple flows.
 
 ## Prerequisites
     Java 8 should be install on your machine.
