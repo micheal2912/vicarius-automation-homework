@@ -28,4 +28,5 @@ services:
     environment:
       - SELENIUM_HUB_URL=http://selenium-hub:4444/wd/hub
     volumes:
-      - ./local-surefire-reports:/usr/src/myapp/target/surefire-reports
+      - ./local-surefire-reports:/usr/src/vicariusautomation/target/surefire-reports
+    image: micheal2912/vicariusautomation:latest

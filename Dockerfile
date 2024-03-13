@@ -2,8 +2,8 @@
 FROM maven:3.6.3-openjdk-8
 
 # Copy your project files into the image
-COPY . /usr/src/myapp
-WORKDIR /usr/src/myapp
+COPY . /usr/src/vicariusautomation
+WORKDIR /usr/src/vicariusautomation
 
 # Compile your project. This step is optional but can speed up tests later.
 RUN mvn clean install -DskipTests
