@@ -20,9 +20,6 @@ services:
       - HUB_PORT=4444
 
   my-java-tests:
-    build:
-      context: .
-      dockerfile: Dockerfile # This should point to your Dockerfile
     depends_on:
       - selenium-hub
     environment:
@@ -30,3 +27,4 @@ services:
     volumes:
       - ./local-surefire-reports:/usr/src/vicariusautomation/target/surefire-reports
     image: micheal2912/vicariusautomation:latest
+    container_name: vicariusautomationSuite
