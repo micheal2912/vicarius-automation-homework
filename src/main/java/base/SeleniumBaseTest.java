@@ -119,7 +119,6 @@ public class SeleniumBaseTest {
 		driver.quit();
 	}
 
-
 	public String getScreenShotPath(String testCaseName, WebDriver driver) throws IOException {
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File source = ts.getScreenshotAs(OutputType.FILE);
